@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import AdminLink from "./AdminLink";
 
 export default function Header() {
@@ -17,7 +17,7 @@ export default function Header() {
             Code Flow
           </Link>
 
-          {/* Desktop nav */}
+          {/* Navigation */}
           <nav className="hidden items-center gap-6 md:flex">
             <Link href="/#work" className="text-sm text-slate-700 hover:text-slate-900">
               Work
@@ -29,13 +29,12 @@ export default function Header() {
               Contact
             </Link>
 
-            {/* Admin-only */}
             <SignedIn>
               <AdminLink />
             </SignedIn>
           </nav>
 
-          {/* Actions */}
+          {/* Right side actions */}
           <div className="flex items-center gap-3">
             {/* Signed out */}
             <SignedOut>
@@ -55,6 +54,16 @@ export default function Header() {
               >
                 Dashboard
               </Link>
+
+              {/* Clerk account menu */}
+              <UserButton
+                appearance={{
+                  elements: {
+                    avatarBox: "h-9 w-9",
+                  },
+                }}
+                afterSignOutUrl="/"
+              />
             </SignedIn>
           </div>
         </div>
