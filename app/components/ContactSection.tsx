@@ -22,10 +22,10 @@ export default function ContactSection() {
             <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
               <p className="text-xs font-medium text-slate-500">Email</p>
               <Link
-                href="mailto:hello@codeflow.hr"
+                href="mailto:info@codeflow.hr"
                 className="mt-1 block text-sm font-medium text-slate-900 hover:underline"
               >
-                hello@codeflow.hr
+                info@codeflow.hr
               </Link>
               <p className="mt-1 text-sm text-slate-600">
                 Best for detailed questions & proposals.

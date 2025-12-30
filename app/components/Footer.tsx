@@ -1,125 +1,120 @@
+"use client";
+
 import Link from "next/link";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 
 export default function Footer() {
+  const year = new Date().getFullYear();
+
   return (
-    <footer className="border-t border-slate-200 bg-slate-50">
-      <div className="mx-auto max-w-6xl px-4 py-16">
-        <div className="grid gap-10 md:grid-cols-4">
+    <footer className="border-t border-slate-200 bg-white">
+      <div className="mx-auto max-w-6xl px-4 py-12">
+        <div className="grid gap-10 md:grid-cols-3">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2">
-              <span className="grid h-9 w-9 place-items-center rounded-xl bg-slate-900 text-sm font-semibold text-white">
-                DS
-              </span>
-              <span className="text-sm font-semibold text-slate-900">
-                Code Flow
-              </span>
-            </div>
-
-            <p className="mt-4 text-sm text-slate-600">
-              We help small businesses grow with clear, modern websites and
-              custom applications—without unnecessary complexity.
+            <Link
+              href="/"
+              className="text-lg font-semibold tracking-tight text-slate-900"
+            >
+              Code Flow
+            </Link>
+            <p className="mt-3 max-w-sm text-sm text-slate-600">
+              Digital solutions for small businesses — websites, web apps, and custom tools
+              built with clear communication and long-term support.
             </p>
+
+            <div className="mt-4 space-y-1 text-sm text-slate-600">
+              <p>
+                <span className="font-medium text-slate-900">Email:</span>{" "}
+                <a className="hover:underline" href="mailto:info@codeflow.hr">
+                  info@codeflow.hr
+                </a>
+              </p>
+              <p>
+                <span className="font-medium text-slate-900">Phone:</span>{" "}
+                <a className="hover:underline" href="tel:+385000000000">
+                  +385 00 000 0000
+                </a>
+              </p>
+            </div>
           </div>
 
-          {/* Navigation */}
+          {/* Site */}
           <div>
-            <p className="text-sm font-semibold text-slate-900">Navigation</p>
+            <p className="text-sm font-semibold text-slate-900">Site</p>
             <ul className="mt-4 space-y-2 text-sm">
               <li>
-                <Link
-                  href="/"
-                  className="text-slate-600 transition hover:text-slate-900"
-                >
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/services"
-                  className="text-slate-600 transition hover:text-slate-900"
-                >
-                  Services
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/work"
-                  className="text-slate-600 transition hover:text-slate-900"
-                >
+                <Link className="text-slate-600 hover:text-slate-900" href="/#work">
                   Work
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/about"
-                  className="text-slate-600 transition hover:text-slate-900"
-                >
-                  About
+                <Link className="text-slate-600 hover:text-slate-900" href="/#process">
+                  How it works
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/contact"
-                  className="text-slate-600 transition hover:text-slate-900"
-                >
+                <Link className="text-slate-600 hover:text-slate-900" href="/#contact">
                   Contact
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Services */}
+          {/* Client area */}
           <div>
-            <p className="text-sm font-semibold text-slate-900">Services</p>
-            <ul className="mt-4 space-y-2 text-sm">
-              <li className="text-slate-600">Websites</li>
-              <li className="text-slate-600">Web Applications</li>
-              <li className="text-slate-600">Online Stores</li>
-              <li className="text-slate-600">Custom Software</li>
-              <li className="text-slate-600">Maintenance & Support</li>
-            </ul>
-          </div>
+            <p className="text-sm font-semibold text-slate-900">Client area</p>
+            <p className="mt-4 text-sm text-slate-600">
+              Already working with us? View your project status and updates.
+            </p>
 
-          {/* Legal */}
-          <div>
-            <p className="text-sm font-semibold text-slate-900">Legal</p>
-            <ul className="mt-4 space-y-2 text-sm">
-              <li>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <SignedOut>
                 <Link
-                  href="/privacy-policy"
-                  className="text-slate-600 transition hover:text-slate-900"
+                  href="/login"
+                  className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2"
                 >
-                  Privacy Policy
+                  Sign in
                 </Link>
-              </li>
-              <li>
+              </SignedOut>
+
+              <SignedIn>
                 <Link
-                  href="/terms"
-                  className="text-slate-600 transition hover:text-slate-900"
+                  href="/dashboard"
+                  className="rounded-xl bg-sky-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2"
                 >
-                  Terms of Service
+                  Dashboard
                 </Link>
-              </li>
-              <li>
-                <Link
-                  href="/cookies"
-                  className="text-slate-600 transition hover:text-slate-900"
-                >
-                  Cookie Policy
-                </Link>
-              </li>
-            </ul>
+              </SignedIn>
+
+              <Link
+                href="/#contact"
+                className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-900 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2"
+              >
+                Start a project
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Bottom bar */}
-      <div className="border-t border-slate-200 bg-white">
-        <div className="mx-auto max-w-6xl px-4 py-6">
-          <p className="text-center text-sm text-slate-600">
-            © {new Date().getFullYear()} Code Flow j.d.o.o All rights reserved.
+        {/* Bottom bar */}
+        <div className="mt-10 flex flex-col gap-3 border-t border-slate-200 pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-slate-600">
+            © {year} Code Flow. All rights reserved.
           </p>
+
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+            {/* Only keep links you actually have */}
+            <Link className="text-slate-600 hover:text-slate-900" href="/#contact">
+              Contact
+            </Link>
+            <Link className="text-slate-600 hover:text-slate-900" href="/#work">
+              Work
+            </Link>
+            <Link className="text-slate-600 hover:text-slate-900" href="/#process">
+              Process
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
