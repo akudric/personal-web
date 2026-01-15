@@ -14,11 +14,7 @@ export default function Hero() {
         <div className="grid items-center gap-12 lg:grid-cols-2">
           {/* Copy */}
           <div>
-            <p className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/70 px-4 py-2 text-sm text-slate-700 backdrop-blur">
-              <span className="h-2 w-2 rounded-full bg-emerald-500" />
-              Digital solutions for small businesses
-            </p>
-
+           
             <h1 className="mt-6 text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl">
               Digital Solutions That Help{" "}
               <span className="bg-gradient-to-r from-sky-600 to-indigo-600 bg-clip-text text-transparent">
