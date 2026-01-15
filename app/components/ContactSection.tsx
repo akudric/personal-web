@@ -80,7 +80,6 @@ export default function ContactSection() {
           <form
             className="mt-6 space-y-4"
             onSubmit={(e) => {
-              // Logic will be implemented later
               e.preventDefault();
             }}
           >
@@ -213,11 +212,6 @@ export default function ContactSection() {
             >
               Send message
             </button>
-
-            <p className="text-xs text-slate-500">
-              This form is currently UI-only. Submission logic will be added
-              later.
-            </p>
           </form>
         </div>
       </div>

@@ -1,4 +1,3 @@
-// app/dashboard/page.tsx
 import Link from "next/link";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
@@ -36,7 +35,6 @@ export default async function DashboardLandingPage() {
 
   const projects = await getUserProjects(user.id);
 
-  // 0 projects
   if (projects.length === 0) {
     return (
       <main className="mx-auto max-w-6xl px-4 py-12">
@@ -59,12 +57,10 @@ export default async function DashboardLandingPage() {
     );
   }
 
-  // 1 project → go straight to it
   if (projects.length === 1) {
     redirect(`/dashboard/projects/${projects[0].id}`);
   }
 
-  // 2+ projects → chooser
   return (
     <main className="mx-auto max-w-6xl px-4 py-12">
       <h1 className="text-3xl font-semibold text-slate-900">Choose a project</h1>

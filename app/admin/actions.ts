@@ -27,11 +27,9 @@ export async function createProject(formData: FormData) {
   const clientClerkUserIdRaw = String(formData.get("client_clerk_user_id") || "").trim();
   const client_clerk_user_id = clientClerkUserIdRaw ? clientClerkUserIdRaw : null;
 
-  // Generate a slug and ensure uniqueness by appending a short suffix if needed
   const baseSlug = slugify(name) || "project";
   let slug = baseSlug;
 
-  // Try insert; if slug conflict, retry with suffix
   for (let attempt = 0; attempt < 5; attempt++) {
     const { data: inserted, error } = await supabaseAdmin
       .from("projects")
@@ -49,7 +47,6 @@ export async function createProject(formData: FormData) {
       .single();
 
     if (!error && inserted?.id) {
-      // Optionally link the client user to the project
       if (client_clerk_user_id) {
         const { error: memberErr } = await supabaseAdmin.from("project_members").insert({
           project_id: inserted.id,
@@ -59,8 +56,6 @@ export async function createProject(formData: FormData) {
         });
 
         if (memberErr) {
-          // If membership insert fails, still keep project created
-          // (You can surface this later if you want)
           console.warn("Failed to create project member:", memberErr.message);
         }
       }
@@ -69,7 +64,6 @@ export async function createProject(formData: FormData) {
       return;
     }
 
-    // If slug conflict, retry with suffix
     const msg = (error as any)?.message ?? "";
     const code = (error as any)?.code ?? "";
     const isUniqueViolation = code === "23505" || msg.toLowerCase().includes("duplicate");

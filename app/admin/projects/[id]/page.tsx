@@ -73,7 +73,6 @@ export default async function AdminProjectPage({
           image_url: u.imageUrl ?? null,
         };
       } catch {
-        // user not found / no permission / etc.
         return {
           clerk_user_id: id,
           display_name: null,

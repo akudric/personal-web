@@ -1,4 +1,3 @@
-// app/dashboard/projects/[id]/page.tsx
 import Link from "next/link";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
@@ -40,7 +39,6 @@ export default async function ProjectDashboardPage({
 
   const { id: projectId } = await params;
 
-  // ✅ membership check: user must be member of this project
   const { data: membership } = await supabaseAdmin
     .from("project_members")
     .select("id")
@@ -52,7 +50,6 @@ export default async function ProjectDashboardPage({
     redirect("/dashboard");
   }
 
-  // Fetch project + child data
   const [{ data: project }, tasksRes, milestonesRes, updatesRes, linksRes, filesRes] =
     await Promise.all([
       supabaseAdmin

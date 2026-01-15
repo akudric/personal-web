@@ -41,9 +41,9 @@ export async function setTaskDone(formData: FormData) {
 export async function addTask(formData: FormData) {
   const projectId = String(formData.get("projectId"));
   const title = String(formData.get("title"));
-  const owner = String(formData.get("owner")); // client|codeflow
-  const priority = String(formData.get("priority")); // low|normal|high
-  const status = String(formData.get("status")); // todo|in_progress|blocked|done
+  const owner = String(formData.get("owner"));
+  const priority = String(formData.get("priority"));
+  const status = String(formData.get("status"));
   const due_date_raw = String(formData.get("due_date") || "");
   const due_date = due_date_raw ? due_date_raw : null;
 
@@ -89,7 +89,7 @@ export async function addProjectUpdate(formData: FormData) {
   const projectId = String(formData.get("projectId"));
   const title = String(formData.get("title") || "");
   const body = String(formData.get("body"));
-  const visibility = String(formData.get("visibility") || "client"); // client|internal
+  const visibility = String(formData.get("visibility") || "client");
 
   const { error } = await supabaseAdmin.from("project_updates").insert({
     project_id: projectId,
@@ -129,11 +129,9 @@ export async function createProject(formData: FormData) {
   const clientClerkUserIdRaw = String(formData.get("client_clerk_user_id") || "").trim();
   const client_clerk_user_id = clientClerkUserIdRaw ? clientClerkUserIdRaw : null;
 
-  // Generate a slug and ensure uniqueness by appending a short suffix if needed
   const baseSlug = slugify(name) || "project";
   let slug = baseSlug;
 
-  // Try insert; if slug conflict, retry with suffix
   for (let attempt = 0; attempt < 5; attempt++) {
     const { data: inserted, error } = await supabaseAdmin
       .from("projects")
@@ -151,7 +149,6 @@ export async function createProject(formData: FormData) {
       .single();
 
     if (!error && inserted?.id) {
-      // Optionally link the client user to the project
       if (client_clerk_user_id) {
         const { error: memberErr } = await supabaseAdmin.from("project_members").insert({
           project_id: inserted.id,
@@ -161,8 +158,6 @@ export async function createProject(formData: FormData) {
         });
 
         if (memberErr) {
-          // If membership insert fails, still keep project created
-          // (You can surface this later if you want)
           console.warn("Failed to create project member:", memberErr.message);
         }
       }
@@ -171,7 +166,6 @@ export async function createProject(formData: FormData) {
       return;
     }
 
-    // If slug conflict, retry with suffix
     const msg = (error as any)?.message ?? "";
     const code = (error as any)?.code ?? "";
     const isUniqueViolation = code === "23505" || msg.toLowerCase().includes("duplicate");
@@ -196,13 +190,11 @@ export async function addProjectMember(formData: FormData) {
 
   let clerkUserId = userIdentifier;
 
-  // If not an id, treat as email and resolve via Clerk
   if (!userIdentifier.startsWith("user_")) {
     const email = userIdentifier.toLowerCase();
 
     const client = await clerkClient();
 
-    // Clerk supports searching users; we only need the first exact match
     const res = await client.users.getUserList({ emailAddress: [email], limit: 1 });
 
     const found = res.data?.[0];
@@ -213,7 +205,6 @@ export async function addProjectMember(formData: FormData) {
     clerkUserId = found.id;
   }
 
-  // If making primary, unset others
   if (isPrimary) {
     const { error: unsetErr } = await supabaseAdmin
       .from("project_members")
@@ -249,7 +240,6 @@ export async function setPrimaryContact(formData: FormData) {
   const projectId = String(formData.get("projectId"));
   const memberId = String(formData.get("memberId"));
 
-  // unset others
   const { error: unsetErr } = await supabaseAdmin
     .from("project_members")
     .update({ is_primary_contact: false })
@@ -257,7 +247,6 @@ export async function setPrimaryContact(formData: FormData) {
 
   if (unsetErr) throw unsetErr;
 
-  // set selected
   const { error } = await supabaseAdmin
     .from("project_members")
     .update({ is_primary_contact: true })
