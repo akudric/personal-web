@@ -1,4 +1,3 @@
-// app/dashboard/getProjects.ts
 import "server-only";
 import { supabaseAdmin } from "../lib/supabaseAdmin";
 

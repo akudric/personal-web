@@ -13,7 +13,6 @@ type Member = {
   is_primary_contact: boolean;
   created_at: string;
 
-  // Enriched fields (from Clerk)
   display_name?: string | null;
   email?: string | null;
   image_url?: string | null;

@@ -1,4 +1,3 @@
-// app/components/WorkScope.tsx
 import Link from "next/link";
 
 type Tier = {

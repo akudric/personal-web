@@ -1,9 +1,7 @@
-// app/dashboard/getDashboardData.ts
 import "server-only";
 import { supabaseAdmin } from "../lib/supabaseAdmin";
 
 export async function getDashboardData(clerkUserId: string) {
-  // 1) Find project IDs the user belongs to
   const { data: memberships, error: membersError } = await supabaseAdmin
     .from("project_members")
     .select("project_id")
@@ -16,7 +14,6 @@ export async function getDashboardData(clerkUserId: string) {
     return { project: null};
   }
 
-  // 2) Fetch the most recently updated project (or pick the first)
   const { data: projectList, error: projectError } = await supabaseAdmin
     .from("projects")
     .select("id, name, status, phase, progress, last_update_at, updated_at")
@@ -28,7 +25,6 @@ export async function getDashboardData(clerkUserId: string) {
   const project = projectList?.[0];
   if (!project) return { project: null};
 
-  // 3) Fetch child data in parallel
   const [tasksRes, milestonesRes, updatesRes, linksRes, filesRes] =
     await Promise.all([
       supabaseAdmin
